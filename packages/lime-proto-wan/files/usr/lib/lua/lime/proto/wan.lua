@@ -49,19 +49,6 @@ function wan.setup_interface(ifname, args)
 	end
 
 	uci:save("network")
-
-	--! Accepting link local traffic also on WAN should not cause hazards.
-	--! It is very helpful in cases where the devices have problem to the other
-	--! ports, to have at least an addictional way to enter for rescue operation
-	local ALLOW_WAN_LL_SECT = "lime_allow_wan_all_link_local"
-	uci:set("firewall", ALLOW_WAN_LL_SECT, "rule")
-	uci:set("firewall", ALLOW_WAN_LL_SECT, "name", ALLOW_WAN_LL_SECT)
-	uci:set("firewall", ALLOW_WAN_LL_SECT, "src", "wan")
-	uci:set("firewall", ALLOW_WAN_LL_SECT, "family", "ipv6")
-	uci:set("firewall", ALLOW_WAN_LL_SECT, "src_ip", "fe80::/10")
-	uci:set("firewall", ALLOW_WAN_LL_SECT, "dest_ip", "fe80::/10")
-	uci:set("firewall", ALLOW_WAN_LL_SECT, "target", "ACCEPT")
-	uci:save("firewall")
 end
 
 return wan
